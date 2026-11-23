@@ -41,15 +41,19 @@ export function findMatch(kind, meta, onStatus, code) {
     // quick match
     for (;;) {
       onStatus('Searching for an opponent…');
-      const q = await join('queue', { ...meta, t });
+      const q = await join('queue', { ...meta, t }); // same t every lap, so you keep your place in line
+      // If nobody shows up within a few seconds, re-enter the queue: a fresh join re-syncs presence,
+      // so a missed "player joined" event can't leave you waiting forever. Your place (t) is kept.
       const opp = await new Promise((res) => {
+        const to = setTimeout(() => { q.onPeers = null; res(null); }, 6000);
         q.onPeers = (peers) => {
           const list = [...peers].sort(byWait), i = list.findIndex((p) => p.id === myId);
           const j = i % 2 === 0 ? i + 1 : i - 1;
-          if (i >= 0 && list[j]) { q.onPeers = null; res(list[j]); }
+          if (i >= 0 && list[j]) { clearTimeout(to); q.onPeers = null; res(list[j]); }
         };
         q.onPeers(q.peers);
       });
+      if (!opp) { drop(q); if (cancelled) throw new Error('cancelled'); continue; }
       onStatus(`Found ${opp.name || 'an opponent'}. Connecting…`);
       const id = [myId, opp.id].sort().join('-');
       const ch = await join('m:' + id, { ...meta, t });
