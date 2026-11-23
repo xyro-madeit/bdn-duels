@@ -1,5 +1,5 @@
 // Network channels with presence + broadcast. Two backends, same API:
-//  - Supabase Realtime (when VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY are set): works across the internet.
+//  - Supabase Realtime (when VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY, or Vercel's NEXT_PUBLIC_SUPABASE_* names, are set): works across the internet.
 //  - Local (BroadcastChannel): tabs of the same browser on this machine. Used for testing without keys,
 //    or forced with ?net=local.
 // API: const ch = await joinChannel(name, meta); ch.send(type, data); ch.onMsg = (type, data, from) => {};
@@ -8,7 +8,8 @@
 
 export const myId = Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
 
-const URL = import.meta.env.VITE_SUPABASE_URL, KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const URL = import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL;
+const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 const forceLocal = new URLSearchParams(location.search).get('net') === 'local';
 export const backend = URL && KEY && !forceLocal ? 'supabase' : 'local';
 
