@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BDN Duels</title>
+  <link rel="icon" type="image/svg+xml" href="/logo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <canvas id="c"></canvas>
+
+  <div id="hud">
+    <div id="xh" data-style="cross"><i></i><i></i><i></i><i></i><b></b><u></u></div>
+    <div id="dbg" class="panel">
+      <div class="spd"><b id="spd">0.0</b><small>m/s</small></div>
+      <div class="row"><span id="state">ground</span><span id="peak">peak 0.0</span></div>
+      <canvas id="graph" width="220" height="48"></canvas>
+      <div class="row muted"><span id="fps">0 fps</span><span>120 Hz sim</span></div>
+    </div>
+  </div>
+
+  <div id="start" class="ov lobby">
+    <div class="lob">
+      <header class="lhead">
+        <div class="brand"><img src="/logo.svg" alt="BDN Duels"></div>
+        <nav id="ltabs">
+          <button data-tab="loadout" class="on">Loadout</button>
+          <button data-tab="locker">Locker</button>
+          <button data-tab="settings">Settings</button>
+          <button data-tab="controls">Keybinds</button>
+        </nav>
+        <div id="lvl"></div>
+        <button id="resume" class="ghostbtn hidden">Resume</button>
+        <button id="play" class="playbtn"><span>Play</span><small id="playSub">Duel 1v1 · Crate Yard</small></button>
+      </header>
+      <div class="lmodes"><div class="seg" id="lmodes"></div><div class="seg" id="ldiff"></div><div class="seg" id="lmap"></div></div>
+
+      <section id="tab-loadout" class="ltab on">
+        <div class="lslots" id="lslots"></div>
+        <div class="lpicker">
+          <div class="lph" id="ptitle"></div>
+          <div class="lgrid" id="lgrid"></div>
+        </div>
+        <aside class="ldetail" id="ldetail"></aside>
+      </section>
+
+      <section id="tab-locker" class="ltab"></section>
+
+      <section id="tab-settings" class="ltab">
+        <div class="settings panel">
+          <label><span>Sensitivity</span><input id="sSens" type="range" min="0.1" max="3" step="0.05"><b id="vSens"></b></label>
+          <label><span>Field of view</span><input id="sFov" type="range" min="70" max="110" step="1"><b id="vFov"></b></label>
+          <label><span>Head bob</span><input id="sBob" type="range" min="0" max="1" step="0.1"><b id="vBob"></b></label>
+          <div class="sgroup">Controller</div>
+          <label><span>Stick sensitivity</span><input id="sPadSens" type="range" min="0.3" max="2.5" step="0.05"><b id="vPadSens"></b></label>
+          <label class="chk"><span>Invert look</span><input id="sInvert" type="checkbox"><b>Push up to look down</b></label>
+          <div class="xrow"><span>Aim assist</span><div class="seg" id="sAssist"></div><small class="muted">Controller only. Strong locks on and lands ~90% of shots near a target.</small></div>
+          <div class="sgroup">Graphics</div>
+          <label class="chk"><span>Shadows</span><input id="sShadows" type="checkbox"><b>Real-time shadows</b></label>
+          <label class="chk"><span>Performance mode</span><input id="sPerf" type="checkbox"><b>Lower resolution for weaker computers</b></label>
+          <div class="xrow"><span>Crosshair</span><div class="seg" id="sXh"></div><div id="xhPrev"><div class="xhp" data-style="cross"><i></i><i></i><i></i><i></i><b></b><u></u></div></div></div>
+          <label class="chk"><span>Sandbox</span><input id="sUnlock" type="checkbox"><b>Unlock everything (testing)</b></label>
+        </div>
+      </section>
+
+      <section id="tab-controls" class="ltab">
+        <div class="binds panel">
+          <div class="bhead"><span>Click a key to change it. Esc cancels, Backspace clears.</span><button id="bReset" class="ghostbtn">Reset to defaults</button></div>
+          <div class="padcfg">
+            <div><b>Controller</b><span id="padLayout"></span></div>
+            <button id="padSetupBtn" class="ghostbtn">Set up buttons</button><button id="padReset" class="ghostbtn">Default layout</button>
+            <div class="seg" id="padAxes"><span>Right stick axes</span><button data-ax="auto">Auto</button><button data-ax="2/3">2 / 3</button><button data-ax="2/5">2 / 5</button></div>
+          </div>
+          <div id="bindList"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="results" class="ov hidden"></div>
+  <div id="padSetup" class="ov hidden">
+    <div class="rcard panel pscard">
+      <div class="ont">CONTROLLER SETUP</div>
+      <div id="psStep" class="onstat"></div>
+      <div id="psBtn" class="psbtn">A</div>
+      <div id="psHint" class="onnote"></div>
+      <div class="rb"><button id="psSkip" class="ghostbtn">Skip (not on my pad)</button><button id="psCancel" class="ghostbtn">Cancel</button></div>
+    </div>
+  </div>
+  <div id="padHints"><span><b>A</b> Select</span><span><b>B</b> Back</span><span><b>LB</b><b>RB</b> Tabs</span><span><b>START</b> Play</span></div>
+  <div id="online" class="ov hidden">
+    <div class="rcard panel oncard">
+      <div class="ont">ONLINE 1V1</div>
+      <label class="onl">Your name <input id="onName" maxlength="16" spellcheck="false"></label>
+      <div id="onIdle">
+        <button id="onQuick" class="playbtn"><span>Quick match</span><small>Play the next person who is searching</small></button>
+        <div class="onrow"><button id="onCreate" class="ghostbtn">Create room</button>
+          <input id="onJoinCode" placeholder="CODE" maxlength="6" spellcheck="false"><button id="onJoin" class="ghostbtn">Join</button></div>
+      </div>
+      <div id="onBusy" class="hidden">
+        <div id="onCode" class="oncode"></div>
+        <div class="onspin"></div>
+        <button id="onCancel" class="ghostbtn">Cancel</button>
+      </div>
+      <div id="onStatus" class="onstat"></div>
+      <div id="onBackend" class="onnote"></div>
+      <button id="onClose" class="onx" title="Close">✕</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

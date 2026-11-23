@@ -1,0 +1,46 @@
+{
+ "gun_striker": {
+  "seed": 1,
+  "drive": 11.0
+ },
+ "gun_triburst": {
+  "seed": 7,
+  "drive": 11.0
+ },
+ "gun_wasp": {
+  "seed": 5,
+  "drive": 11.0
+ },
+ "gun_hornet": {
+  "seed": 3,
+  "drive": 11.0
+ },
+ "gun_breacher": {
+  "seed": 2,
+  "drive": 8.0
+ },
+ "gun_twinfang": {
+  "seed": 2,
+  "drive": 11.0
+ },
+ "gun_longshot": {
+  "seed": 3,
+  "drive": 8.0
+ },
+ "gun_sidekick": {
+  "seed": 1,
+  "drive": 11.0
+ },
+ "gun_judge": {
+  "seed": 2,
+  "drive": 11.0
+ },
+ "gun_buzzsaw": {
+  "seed": 2,
+  "drive": 11.0
+ },
+ "gun_boomer": {
+  "seed": 2,
+  "drive": 8.0
+ }
+}

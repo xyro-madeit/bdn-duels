@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
+  <!-- BDN Duels logo. Custom block letterforms (no font needed), skewed for speed.
+       Teal vs. hot-pink plates split by a diagonal slash: two sides, one duel. -->
+  <defs>
+    <linearGradient id="teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4ff2d3"/><stop offset="1" stop-color="#14a98f"/></linearGradient>
+    <linearGradient id="pink" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6a9c"/><stop offset="1" stop-color="#d81f5f"/></linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#eef3f7"/><stop offset="1" stop-color="#c9d3dc"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000" flood-opacity="0.45"/></filter>
+    <!-- letters on a 100 x 120 grid -->
+    <path id="B" fill-rule="evenodd" d="M0 0H80L100 20V46L90 60L100 74V100L80 120H0Z M28 24V48H66L72 42V30L66 24Z M28 72V96H66L72 90V78L66 72Z"/>
+    <path id="D" fill-rule="evenodd" d="M0 0H74L100 26V94L74 120H0Z M28 24V96H62L72 86V34L62 24Z"/>
+    <path id="N" d="M0 0H28L72 70V0H100V120H72L28 50V120H0Z"/>
+    <path id="dD" fill-rule="evenodd" d="M0 0H74L100 26V94L74 120H0Z M30 26V94H62L70 86V34L62 26Z"/>
+    <path id="dU" d="M0 0H30V90H70V0H100V96L76 120H24L0 96Z"/>
+    <path id="dE" d="M0 0H100V28H30V46H86V74H30V92H100V120H0Z"/>
+    <path id="dL" d="M0 0H30V92H100V120H0Z"/>
+    <path id="dS" d="M14 0H100V28H30V46H86L100 60V106L86 120H0V92H70V74H14L0 60V14Z"/>
+  </defs>
+
+  <g transform="translate(320 150) skewX(-12)">
+    <!-- duel plates: teal (left) and pink (right), split by a slash -->
+    <g filter="url(#sh)">
+      <path d="M-262 -96H-6L-58 96H-262L-282 76V-76Z" fill="url(#teal)"/>
+      <path d="M14 -96H262L282 -76V76L262 96H-38Z" fill="url(#pink)"/>
+    </g>
+    <!-- the slash: a bright cut with a spark -->
+    <path d="M-2 -118L10 -118L-42 118L-54 118Z" fill="#fff" opacity="0.95"/>
+    <path d="M-1 -110L5 -110L-46 110L-52 110Z" fill="#ffe36b"/>
+
+    <!-- BDN wordmark: dark outline, white face -->
+    <g transform="translate(-180 -60)">
+      <g fill="#14161b" stroke="#14161b" stroke-width="16" stroke-linejoin="round" filter="url(#sh)">
+        <use href="#B"/><use href="#D" x="128"/><use href="#N" x="256"/>
+      </g>
+      <g fill="url(#face)">
+        <use href="#B"/><use href="#D" x="128"/><use href="#N" x="256"/>
+      </g>
+      <!-- top-edge highlight -->
+      <g fill="#fff" opacity="0.5">
+        <rect x="6" y="4" width="70" height="4"/><rect x="134" y="4" width="62" height="4"/><rect x="262" y="4" width="18" height="4"/><rect x="334" y="4" width="18" height="4"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- DUELS bar -->
+  <g transform="translate(320 282) skewX(-12)">
+    <path d="M-178 -30H178L190 -18V18L178 30H-178L-190 18V-18Z" fill="#14161b" filter="url(#sh)"/>
+    <path d="M-178 -30H178L184 -24H-184Z" fill="#ffffff" opacity="0.08"/>
+    <g transform="translate(-135 -18) scale(0.3)" fill="#ffffff">
+      <use href="#dD"/><use href="#dU" x="190"/><use href="#dE" x="380"/><use href="#dL" x="570"/><use href="#dS" x="760"/>
+    </g>
+    <!-- crosshair ticks either side -->
+    <g stroke="#4ff2d3" stroke-width="4" stroke-linecap="square"><path d="M-168 0H-150"/><path d="M-159 -9V9"/></g>
+    <g stroke="#ff6a9c" stroke-width="4" stroke-linecap="square"><path d="M150 0H168"/><path d="M159 -9V9"/></g>
+  </g>
+</svg>

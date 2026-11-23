@@ -1,0 +1,13 @@
+node_modules
+dist
+.env
+.env.local
+.DS_Store
+# generated audio (rebuild with tools/render_ingredients.py + tools/build_sfx.py)
+tools/sfx_src
+tools/sfx_mix
+tools/gun_trials
+# local-only: review renders, the single-file offline build, editor/session settings
+tools/blender/review
+BDN-Duels-offline.html
+.claude/
